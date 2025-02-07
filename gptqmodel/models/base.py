@@ -447,6 +447,9 @@ class BaseGPTQModel(nn.Module):
         num_batches = len(calibration_dataset)
         layers = get_module_by_name_prefix(self.model, self.layers_node)
 
+        # move layer to target device
+        layers[0] = layers[0].to(self.quantize_config.device)
+
         cur_layer_device = get_device(layers[0])
         data_device = cur_layer_device if calibration_enable_gpu_cache else CPU
 
@@ -499,7 +502,7 @@ class BaseGPTQModel(nn.Module):
                 raise ValueError
 
         # move layer to target device
-        layers[0] = layers[0].to(self.quantize_config.device)
+        # layers[0] = layers[0].to(self.quantize_config.device)
 
         ori_outside_layer_module_devices = {}
         for module_name in self.base_modules:

@@ -84,7 +84,11 @@ def recurse_setattr(module, name, value):
 def get_device(obj: torch.Tensor | nn.Module):
     if isinstance(obj, torch.Tensor):
         return obj.device
-    return next(obj.parameters()).device
+    else:
+        try:
+            return next(obj.parameters()).device
+        except StopIteration:
+            return next(obj.buffers()).device
 
 
 def move_to(obj: torch.Tensor | nn.Module, device: torch.device):

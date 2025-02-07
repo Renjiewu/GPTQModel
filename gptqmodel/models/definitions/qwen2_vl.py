@@ -29,7 +29,10 @@ from ..base import BaseGPTQModel
 class Qwen2VLGPTQ(BaseGPTQModel):
     loader = AutoModelForVision2Seq
 
-    base_modules = ["model.embed_tokens", "model.norm"]
+    base_modules = ["model.embed_tokens", "model.norm",
+                    "visual",
+                    "model.rotary_emb"
+                    ]
 
     layers_node = "model.layers"
     layer_type = "Qwen2VLDecoderLayer"
